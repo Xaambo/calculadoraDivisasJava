@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">calculadoraDivisasJava</string>
+    <string name="_num8">8</string>
+    <string name="_num9">9</string>
+    <string name="_num2">2</string>
+    <string name="_numCE">CE</string>
+    <string name="_Igual">=</string>
+    <string name="_num1">1</string>
+    <string name="_num3">3</string>
+    <string name="_num5">5</string>
+    <string name="_num6">6</string>
+    <string name="_num7">7</string>
+    <string name="_DEL">DEL</string>
+    <string name="_num4">4</string>
+    <string name="_num0">0</string>
+    <string name="_Dollar">Dollar</string>
+    <string name="_Yen">Yen</string>
+    <string name="_Yuan">Yuan</string>
+    <string name="_Libra">Libra</string>
+    <string name="_Euros">EUROS</string>
+    <string name="_num0">0</string>
 </resources>
