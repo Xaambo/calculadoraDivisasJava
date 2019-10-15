@@ -109,14 +109,14 @@ public class MainActivity extends AppCompatActivity {
         btnCE.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                netejarPantalla(tvIn);
             }
         });
 
         btnDEL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                eliminarNumero(tvIn);
             }
         });
 
@@ -153,7 +153,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected void eliminarNumero() {
+    protected void eliminarNumero(TextView tvIn) {
+
+        tvIn.setText("");
+
+    }
+
+    protected void netejarPantalla(TextView tvIn) {
+
+        tvIn.setText("");
 
     }
 }
