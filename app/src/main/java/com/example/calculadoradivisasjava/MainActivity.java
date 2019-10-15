@@ -130,23 +130,26 @@ public class MainActivity extends AppCompatActivity {
 
     protected void addnumero(int num, TextView tvIn) {
         String tvContent;
-        int actualInt;
+        int actualInt = 0;
 
         tvContent = (String) tvIn.getText();
 
-        actualInt = Integer.parseInt(tvContent);
+        if (tvContent.length() < 6) {
 
-        if (actualInt == 0) {
-            tvIn.setText("");
+            actualInt = Integer.parseInt(tvContent);
 
-            actualInt = actualInt + num;
-            tvContent = String.valueOf(actualInt);
-            tvIn.setText(tvContent);
+            if (actualInt == 0) {
+                tvIn.setText("");
 
-        } else {
+                actualInt = actualInt + num;
+                tvContent = String.valueOf(actualInt);
+                tvIn.setText(tvContent);
 
-            tvContent = String.valueOf(actualInt);
-            tvIn.setText(tvContent + num);
+            } else {
+
+                tvContent = String.valueOf(actualInt);
+                tvIn.setText(tvContent + num);
+            }
         }
     }
 
