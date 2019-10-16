@@ -202,19 +202,15 @@ public class MainActivity extends AppCompatActivity {
         ultimaMoneda = conversor.getUltimaMoneda();
 
         if (!ultimaMoneda.equals(moneda)) {
-            conversio = dialogConEditText(moneda);
 
-            conversor.setConversio(conversio);
-            conversor.setUltimaMoneda(moneda);
-            conversor.setBtn(btnClicked);
+            dialogConEditText(moneda, conversor, btnClicked);
 
-            btnClicked.setBackgroundColor(Color.parseColor("#000000"));
         }
 
         return conversor;
     }
 
-    private Float dialogConEditText(String moneda) {
+    private void dialogConEditText(final String moneda, final Conversor conversor, final Button btnClicked) {
         AlertDialog ad;
 
         ad = new AlertDialog.Builder(this).create();
@@ -227,15 +223,21 @@ public class MainActivity extends AppCompatActivity {
 
         ad.setButton(AlertDialog.BUTTON_POSITIVE,"Aceptar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                Toast.makeText(getApplicationContext(), "S'ha apretat el botó ACCEPTAR, el valor escrit és " + edtValor.getText().toString(), Toast.LENGTH_LONG).show();
+
+                String conversio;
+
+                conversio = edtValor.getText().toString();
+
+                conversor.setConversio(Float.parseFloat(conversio));
+                conversor.setUltimaMoneda(moneda);
+                conversor.setBtn(btnClicked);
+
+                btnClicked.setBackgroundColor(Color.parseColor("#000000"));
             }
         });
         ad.show();
 
         // el Show es asíncrono.
-
-        return Float.parseFloat(edtValor.getText().toString());
-
     }
 
     protected void eliminarNumero(TextView tvIn) {
