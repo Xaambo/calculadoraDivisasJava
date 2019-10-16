@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected void netejarPantalla(TextView tvIn) {
 
-        tvIn.setText("");
+        tvIn.setText("0");
 
     }
 }
