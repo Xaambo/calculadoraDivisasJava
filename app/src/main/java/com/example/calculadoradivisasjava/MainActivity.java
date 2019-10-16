@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
         Button btn1 = findViewById(R.id.btn1);
@@ -40,8 +41,6 @@ public class MainActivity extends AppCompatActivity {
         final Button btnYuan = findViewById(R.id.btnYuan);
         final TextView tvIn = findViewById(R.id.tvIn);
         final TextView tvOut = findViewById(R.id.tvOut);
-        final float conversio = 0;
-        final String ultimaMoneda = "";
 
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,37 +129,38 @@ public class MainActivity extends AppCompatActivity {
         btnIgual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                operacio(tvIn, tvOut);
+                operacio(tvIn, tvOut, conversor);
             }
         });
 
         btnDollar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                conversor = fctConversio((String)btnDollar.getText(), conversor);
+                conversor = fctConversio((String)btnDollar.getText(), conversor, btnDollar);
             }
         });
 
         btnLibra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                conversor = fctConversio((String)btnLibra.getText(), conversor);
+                conversor = fctConversio((String)btnLibra.getText(), conversor, btnLibra);
             }
         });
 
         btnYen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                conversor = fctConversio((String)btnYen.getText(), conversor);
+                conversor = fctConversio((String)btnYen.getText(), conversor, btnYen);
             }
         });
 
         btnYuan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                conversor = fctConversio((String)btnYuan.getText(), conversor);
+                conversor = fctConversio((String)btnYuan.getText(), conversor, btnYuan);
             }
         });
+
     }
 
     protected void addnumero(int num, TextView tvIn) {
@@ -188,40 +188,54 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected void operacio(TextView tvIn, TextView tvOut) {
+    protected void operacio(TextView tvIn, TextView tvOut, Conversor conversor) {
 
 
 
     }
 
-    protected Conversor fctConversio(String moneda, Conversor conversor) {
+    protected Conversor fctConversio(String moneda, Conversor conversor, Button btnClicked) {
 
-        float conversio = 0;
-        String ultimaMoneda = "";
+        float conversio;
+        String ultimaMoneda;
 
-        conversio = conversor.getConversio();
         ultimaMoneda = conversor.getUltimaMoneda();
 
-        dialogBasico(moneda);
+        if (!ultimaMoneda.equals(moneda)) {
+            conversio = dialogConEditText(moneda);
+
+            conversor.setConversio(conversio);
+            conversor.setUltimaMoneda(moneda);
+            conversor.setBtn(btnClicked);
+
+            btnClicked.setBackgroundColor(Color.parseColor("#000000"));
+        }
 
         return conversor;
-
     }
 
-    private void dialogBasico(String moneda) {
+    private Float dialogConEditText(String moneda) {
         AlertDialog ad;
 
         ad = new AlertDialog.Builder(this).create();
         ad.setTitle("Factor de conversió");
         ad.setMessage("Quin es el factor de conversió del " + moneda);
 
-        ad.setButton(AlertDialog.BUTTON_POSITIVE, "Acceptar", new DialogInterface.OnClickListener() {
+        // Ahora forzamos que aparezca el editText
+        final EditText edtValor = new EditText(this);
+        ad.setView(edtValor);
+
+        ad.setButton(AlertDialog.BUTTON_POSITIVE,"Aceptar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                Toast.makeText(getApplicationContext(), "S'ha apretat el botó ACCEPTAR", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "S'ha apretat el botó ACCEPTAR, el valor escrit és " + edtValor.getText().toString(), Toast.LENGTH_LONG).show();
             }
         });
-
         ad.show();
+
+        // el Show es asíncrono.
+
+        return Float.parseFloat(edtValor.getText().toString());
+
     }
 
     protected void eliminarNumero(TextView tvIn) {
