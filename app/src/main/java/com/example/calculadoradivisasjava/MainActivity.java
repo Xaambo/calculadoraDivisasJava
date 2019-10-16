@@ -31,10 +31,10 @@ public class MainActivity extends AppCompatActivity {
         Button btnIgual = findViewById(R.id.btnIgual);
         Button btnCE = findViewById(R.id.btnCE);
         Button btnDEL = findViewById(R.id.btnDEL);
-        Button btnLibra = findViewById(R.id.btnLibra);
-        Button btnYen = findViewById(R.id.btnYen);
-        Button btnDollar = findViewById(R.id.btnDollar);
-        Button btnYuan = findViewById(R.id.btnYuan);
+        final Button btnLibra = findViewById(R.id.btnLibra);
+        final Button btnYen = findViewById(R.id.btnYen);
+        final Button btnDollar = findViewById(R.id.btnDollar);
+        final Button btnYuan = findViewById(R.id.btnYuan);
         final TextView tvIn = findViewById(R.id.tvIn);
         final TextView tvOut = findViewById(R.id.tvOut);
         final float conversio = 0;
@@ -134,28 +134,28 @@ public class MainActivity extends AppCompatActivity {
         btnDollar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                conversor = fctConversio(conversor);
+                conversor = fctConversio((String)btnDollar.getText(), conversor);
             }
         });
 
         btnLibra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                conversor = fctConversio(conversor);
+                conversor = fctConversio((String)btnLibra.getText(), conversor);
             }
         });
 
         btnYen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                conversor = fctConversio(conversor);
+                conversor = fctConversio((String)btnYen.getText(), conversor);
             }
         });
 
         btnYuan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                conversor = fctConversio(conversor);
+                conversor = fctConversio((String)btnYuan.getText(), conversor);
             }
         });
     }
@@ -191,12 +191,34 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    protected Conversor fctConversio(Conversor conversor) {
+    protected Conversor fctConversio(String moneda, Conversor conversor) {
 
+        float conversio = 0;
+        String ultimaMoneda = "";
 
+        conversio = conversor.getConversio();
+        ultimaMoneda = conversor.getUltimaMoneda();
+
+        dialogBasico();
 
         return conversor;
 
+    }
+
+    private void dialogBasico() {
+        AlertDialog ad;
+
+        ad = new AlertDialog.Builder(this).create();
+        ad.setTitle("Factor de conversió");
+        ad.setMessage("Quin es el factor de conversió del " + moneda);
+
+        ad.setButton(AlertDialog.BUTTON_POSITIVE, "Acceptar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                Toast.makeText(getApplicationContext(), "S'ha apretat el botó ACCEPTAR", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        ad.show();
     }
 
     protected void eliminarNumero(TextView tvIn) {
