@@ -2,10 +2,13 @@ package com.example.calculadoradivisasjava;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -199,13 +202,13 @@ public class MainActivity extends AppCompatActivity {
         conversio = conversor.getConversio();
         ultimaMoneda = conversor.getUltimaMoneda();
 
-        dialogBasico();
+        dialogBasico(moneda);
 
         return conversor;
 
     }
 
-    private void dialogBasico() {
+    private void dialogBasico(String moneda) {
         AlertDialog ad;
 
         ad = new AlertDialog.Builder(this).create();
