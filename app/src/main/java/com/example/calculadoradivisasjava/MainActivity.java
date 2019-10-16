@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    Conversor conversor = new Conversor();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         Button btnYuan = findViewById(R.id.btnYuan);
         final TextView tvIn = findViewById(R.id.tvIn);
         final TextView tvOut = findViewById(R.id.tvOut);
+        final float conversio = 0;
+        final String ultimaMoneda = "";
 
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +127,35 @@ public class MainActivity extends AppCompatActivity {
         btnIgual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                operacio(tvIn, tvOut);
+            }
+        });
 
+        btnDollar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                conversor = fctConversio(conversor);
+            }
+        });
+
+        btnLibra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                conversor = fctConversio(conversor);
+            }
+        });
+
+        btnYen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                conversor = fctConversio(conversor);
+            }
+        });
+
+        btnYuan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                conversor = fctConversio(conversor);
             }
         });
     }
@@ -153,10 +185,33 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    protected void operacio(TextView tvIn, TextView tvOut) {
+
+
+
+    }
+
+    protected Conversor fctConversio(Conversor conversor) {
+
+
+
+        return conversor;
+
+    }
+
     protected void eliminarNumero(TextView tvIn) {
 
-        tvIn.setText("");
+        String text = (String) tvIn.getText();
+        String newText;
 
+        if (text.length() > 1) {
+
+            newText = text.substring(0, (text.length() - 1));
+            tvIn.setText(newText);
+
+        } else {
+            tvIn.setText("0");
+        }
     }
 
     protected void netejarPantalla(TextView tvIn) {
