@@ -196,7 +196,6 @@ public class MainActivity extends AppCompatActivity {
 
     protected Conversor fctConversio(String moneda, Conversor conversor, Button btnClicked) {
 
-        float conversio;
         String ultimaMoneda;
 
         ultimaMoneda = conversor.getUltimaMoneda();
@@ -226,13 +225,13 @@ public class MainActivity extends AppCompatActivity {
 
                 String conversio;
 
-                conversio = edtValor.getText().toString();
+                conversio = dialog.toString();
 
                 conversor.setConversio(Float.parseFloat(conversio));
                 conversor.setUltimaMoneda(moneda);
                 conversor.setBtn(btnClicked);
 
-                btnClicked.setBackgroundColor(Color.parseColor("#000000"));
+                btnClicked.setBackgroundColor(Color.parseColor("#f00000"));
             }
         });
         ad.show();
