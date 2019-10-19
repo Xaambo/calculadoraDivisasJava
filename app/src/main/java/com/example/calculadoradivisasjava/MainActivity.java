@@ -12,6 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class MainActivity extends AppCompatActivity {
 
     Conversor conversor = new Conversor();
@@ -115,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         btnCE.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                netejarPantalla(tvIn);
+                netejarPantalla(tvIn, tvOut);
             }
         });
 
@@ -136,28 +139,28 @@ public class MainActivity extends AppCompatActivity {
         btnDollar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                conversor = fctConversio((String)btnDollar.getText(), conversor, btnDollar);
+                conversor = fctConversio((String)btnDollar.getText(), conversor, btnDollar, tvIn, tvOut);
             }
         });
 
         btnLibra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                conversor = fctConversio((String)btnLibra.getText(), conversor, btnLibra);
+                conversor = fctConversio((String)btnLibra.getText(), conversor, btnLibra, tvIn, tvOut);
             }
         });
 
         btnYen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                conversor = fctConversio((String)btnYen.getText(), conversor, btnYen);
+                conversor = fctConversio((String)btnYen.getText(), conversor, btnYen, tvIn, tvOut);
             }
         });
 
         btnYuan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                conversor = fctConversio((String)btnYuan.getText(), conversor, btnYuan);
+                conversor = fctConversio((String)btnYuan.getText(), conversor, btnYuan, tvIn, tvOut);
             }
         });
 
@@ -165,9 +168,9 @@ public class MainActivity extends AppCompatActivity {
 
     protected void addnumero(int num, TextView tvIn) {
         String tvContent;
-        int actualInt = 0;
+        int actualInt;
 
-        tvContent = (String) tvIn.getText();
+        tvContent = tvIn.getText().toString();
 
         if (tvContent.length() < 6) {
 
@@ -190,11 +193,27 @@ public class MainActivity extends AppCompatActivity {
 
     protected void operacio(TextView tvIn, TextView tvOut, Conversor conversor) {
 
+        float fctConversio;
+        float inText;
+        float outFloat;
+        String outText;
 
+        fctConversio = conversor.getConversio();
+        inText = Float.parseFloat(tvIn.getText().toString());
+        outFloat = inText*fctConversio;
 
+        outText = String.valueOf(outFloat);
+
+        outText = truncate(outText, 2);
+
+        tvOut.setText(outText);
     }
 
-    protected Conversor fctConversio(String moneda, Conversor conversor, Button btnClicked) {
+    protected String truncate(String value, int places) {
+        return new BigDecimal(value).setScale(places, RoundingMode.DOWN).stripTrailingZeros().toString();
+    }
+
+    protected Conversor fctConversio(String moneda, Conversor conversor, Button btnClicked, TextView tvIn, TextView tvOut) {
 
         String ultimaMoneda;
 
@@ -203,6 +222,9 @@ public class MainActivity extends AppCompatActivity {
         if (!ultimaMoneda.equals(moneda)) {
 
             dialogConEditText(moneda, conversor, btnClicked);
+
+            tvIn.setText("0");
+            tvOut.setText("0");
 
         }
 
@@ -224,14 +246,22 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int whichButton) {
 
                 String conversio;
+                float conversioF;
+                Button ultimaMoneda;
 
-                conversio = dialog.toString();
+                ultimaMoneda = conversor.getBtn();
+                conversio = edtValor.getText().toString();
+                conversioF = Float.parseFloat(conversio);
 
-                conversor.setConversio(Float.parseFloat(conversio));
+                if (ultimaMoneda != null) {
+                    ultimaMoneda.setBackgroundColor(Color.parseColor("#ABABAB"));
+                }
+
+                conversor.setConversio(conversioF);
                 conversor.setUltimaMoneda(moneda);
                 conversor.setBtn(btnClicked);
 
-                btnClicked.setBackgroundColor(Color.parseColor("#f00000"));
+                btnClicked.setBackgroundColor(Color.parseColor("#000000"));
             }
         });
         ad.show();
@@ -254,9 +284,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected void netejarPantalla(TextView tvIn) {
+    protected void netejarPantalla(TextView tvIn, TextView tvOut) {
 
         tvIn.setText("0");
+        tvOut.setText("0");
 
     }
 }
