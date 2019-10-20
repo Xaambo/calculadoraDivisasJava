@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     Conversor conversor = new Conversor();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -115,6 +115,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnComa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addcoma(',', tvIn);
+            }
+        });
+
         btnCE.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,32 +173,74 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    protected void addnumero(int num, TextView tvIn) {
+    private void addnumero(int num, TextView tvIn) {
         String tvContent;
+        String actualString = "";
         int actualInt;
+        float actualFloat = 0;
+        int index = 0;
 
         tvContent = tvIn.getText().toString();
 
-        if (tvContent.length() < 6) {
+        if (tvContent.length() < 7) {
 
-            actualInt = Integer.parseInt(tvContent);
+            if (!tvContent.contains(",")) {
 
-            if (actualInt == 0) {
-                tvIn.setText("");
+                actualInt = Integer.parseInt(tvContent);
 
-                actualInt = actualInt + num;
-                tvContent = String.valueOf(actualInt);
-                tvIn.setText(tvContent);
+                if (actualInt == 0) {
+                    tvIn.setText("");
+
+                    tvContent = String.valueOf(actualInt + num);
+                    tvIn.setText(tvContent);
+
+                } else {
+                    tvContent = String.valueOf(num);
+                    tvContent = String.valueOf(actualInt + tvContent);
+                    tvIn.setText(tvContent);
+                }
 
             } else {
 
-                tvContent = String.valueOf(actualInt);
-                tvIn.setText(tvContent + num);
+                if (tvContent.charAt(tvContent.length() - 1) == ',') {
+
+                    index = tvContent.indexOf(",");
+                    tvContent = tvContent.substring(0, (tvContent.length() - 1));
+                    actualFloat = Float.parseFloat(tvContent);
+                    actualString = String.valueOf(actualFloat);
+                    actualString = actualString.substring(0, (actualString.length() - 2)) + ",";
+                }
+
+                if ((tvContent.length() - 2) != index) {
+
+                    tvContent = String.valueOf(num);
+                    tvContent = String.valueOf(actualString + tvContent);
+                    tvIn.setText((tvContent));
+                }
             }
         }
     }
 
-    protected void operacio(TextView tvIn, TextView tvOut, Conversor conversor) {
+    private void addcoma(char coma, TextView tvIn) {
+
+        String tvContent;
+
+        tvContent = tvIn.getText().toString();
+
+        if (!tvContent.contains(",")) {
+
+            tvContent = tvContent + coma;
+
+            tvIn.setText(tvContent);
+
+        } else {
+
+            tvIn.setText(tvContent);
+
+        }
+    }
+
+    private void operacio(TextView tvIn, TextView tvOut, Conversor conversor) {
 
         float fctConversio;
         float inText;
@@ -209,11 +258,11 @@ public class MainActivity extends AppCompatActivity {
         tvOut.setText(outText);
     }
 
-    protected String truncate(String value, int places) {
+    private String truncate(String value, int places) {
         return new BigDecimal(value).setScale(places, RoundingMode.DOWN).stripTrailingZeros().toString();
     }
 
-    protected Conversor fctConversio(String moneda, Conversor conversor, Button btnClicked, TextView tvIn, TextView tvOut) {
+    private Conversor fctConversio(String moneda, Conversor conversor, Button btnClicked, TextView tvIn, TextView tvOut) {
 
         String ultimaMoneda;
 
@@ -269,7 +318,7 @@ public class MainActivity extends AppCompatActivity {
         // el Show es asíncrono.
     }
 
-    protected void eliminarNumero(TextView tvIn) {
+    private void eliminarNumero(TextView tvIn) {
 
         String text = (String) tvIn.getText();
         String newText;
@@ -284,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected void netejarPantalla(TextView tvIn, TextView tvOut) {
+    private void netejarPantalla(TextView tvIn, TextView tvOut) {
 
         tvIn.setText("0");
         tvOut.setText("0");
