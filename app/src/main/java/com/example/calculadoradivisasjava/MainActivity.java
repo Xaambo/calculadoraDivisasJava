@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -177,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
         String tvContent;
         String actualString = "";
         int actualInt;
-        float actualFloat = 0;
+        float actualFloat;
         int index = 0;
 
         tvContent = tvIn.getText().toString();
@@ -204,14 +202,20 @@ public class MainActivity extends AppCompatActivity {
 
                 if (tvContent.charAt(tvContent.length() - 1) == ',') {
 
-                    index = tvContent.indexOf(",");
                     tvContent = tvContent.substring(0, (tvContent.length() - 1));
                     actualFloat = Float.parseFloat(tvContent);
                     actualString = String.valueOf(actualFloat);
                     actualString = actualString.substring(0, (actualString.length() - 2)) + ",";
+
+                } else {
+
+                    actualString = tvContent;
+
                 }
 
-                if ((tvContent.length() - 2) != index) {
+                index = actualString.indexOf(",");
+
+                if ((tvContent.length() - 3) != index) {
 
                     tvContent = String.valueOf(num);
                     tvContent = String.valueOf(actualString + tvContent);
@@ -243,17 +247,22 @@ public class MainActivity extends AppCompatActivity {
     private void operacio(TextView tvIn, TextView tvOut, Conversor conversor) {
 
         float fctConversio;
-        float inText;
+        float inFloat;
         float outFloat;
         String outText;
+        String inText;
 
         fctConversio = conversor.getConversio();
-        inText = Float.parseFloat(tvIn.getText().toString());
-        outFloat = inText*fctConversio;
+        inText = tvIn.getText().toString();
+        inText = inText.replace(',','.');
+        inFloat = Float.parseFloat(inText);
+        outFloat = inFloat*fctConversio;
 
         outText = String.valueOf(outFloat);
 
         outText = truncate(outText, 2);
+
+        outText = outText.replace('.',',');
 
         tvOut.setText(outText);
     }
