@@ -173,10 +173,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void addnumero(int num, TextView tvIn) {
         String tvContent;
-        String actualString = "";
+        String actualString;
         int actualInt;
         float actualFloat;
-        int index = 0;
+        int index;
 
         tvContent = tvIn.getText().toString();
 
